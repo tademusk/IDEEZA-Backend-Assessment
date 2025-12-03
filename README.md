@@ -16,7 +16,7 @@ This project implements the backend assessment for IDEEZA, providing analytics A
 
 1.  **Clone the repository**:
     ```bash
-    git clone <repository_url>
+    git clone https://github.com/tademusk/IDEEZA-Backend-Assessment.git
     cd IDEEZA
     ```
 
