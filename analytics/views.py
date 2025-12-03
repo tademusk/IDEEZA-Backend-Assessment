@@ -4,6 +4,7 @@ from django.db.models import Count, Sum, F, Q
 from django.db.models.functions import TruncMonth, TruncWeek, TruncYear, TruncDay
 from .models import Blog, View, User, Country
 from .utils import apply_dynamic_filters
+from .pagination import StandardResultsSetPagination
 
 class BlogViewsAnalytics(APIView):
     """
@@ -12,11 +13,14 @@ class BlogViewsAnalytics(APIView):
     Query Parameters:
         - object_type (required): 'user' or 'country'
         - range (optional): 'month', 'week', or 'year'
+        - page (optional): Page number for pagination
+        - page_size (optional): Items per page (max 1000)
         - Dynamic filters supported (e.g., user__name__icontains, not__field)
     
     Returns:
-        List of {x: name, y: blog_count, z: view_count}
+        Paginated list of {x: name, y: blog_count, z: view_count}
     """
+    pagination_class = StandardResultsSetPagination
     def get(self, request):
         object_type = request.query_params.get('object_type')
         queryset = Blog.objects.select_related('user', 'user__country').prefetch_related('views')
